@@ -11,9 +11,8 @@ Este é um projeto de servidor remoto utilizando o framework Flask e o banco de 
 - Instale as dependências: pip install -r requirements.txt (opcional)
 - Abra um shell interativo Python e execute os seguintes comandos:
   * Python
-  * from app import app, db
-    with app.app_context():
-        db.create_all()
+  * from app import db
+  * db.create_all()
 
 Isso criará o banco de dados SQLite (test.db) e as tabelas necessárias.
 
