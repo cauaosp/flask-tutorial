@@ -2,7 +2,7 @@
 <title>Flask Tutorial</title>
 {% endblock %} {% block body %}
 <div class="content">
-  <h1>Task Master</h1>
+  <h1>Lista De Tarefas<span class="to_do_list"></span></h1>
   <br />
   <form action="/update/{{task.id}}" method="POST">
     <input type="text" name="content" id="content" value="{{task.content}}" />

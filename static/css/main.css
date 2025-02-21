@@ -50,15 +50,15 @@ table {
   border-collapse: collapse;
   text-align: center;
   margin-bottom: 1rem;
-  max-height: 40rem;
+  max-height: 35rem;
   overflow: auto;
   display: flex;
   background-color: #fef6e411;
 }
 
-td {
-  overflow-x: auto;
-  max-width: 30rem;
+#task-content {
+  overflow: auto;
+  max-width: 50rem;
   text-wrap: wrap;
   text-align: left;
 }

@@ -11,6 +11,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(app)
 print("Database URL:", app.config["SQLALCHEMY_DATABASE_URI"])
 
+
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
@@ -22,6 +23,8 @@ class Todo(db.Model):
 
 @app.route("/", methods=["POST", "GET"])
 def index():
+    tasks = Todo.query.order_by(Todo.date_created).all()
+
     if request.method == "POST":
         task_content = request.form["content"]
         new_task = Todo(content=task_content)
@@ -33,7 +36,6 @@ def index():
         except Exception as e:
             return f"Houve um erro ao adicionar uma nova tarefa: {str(e)}"
     else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
         return render_template("index.html", tasks=tasks)
 
 

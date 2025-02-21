@@ -9,6 +9,7 @@
 {% endblock %} {% block body %}
 <div class="content">
   <h1>Lista De Tarefas<span class="to_do_list"></span></h1>
+
   {% if tasks|length < 1 %}
   <h4>Não há tarefas para atualizar. Crie uma!</h4>
   <form action="/" method="POST">
@@ -31,13 +32,18 @@
       <td id="task-content">{{ task.content }}</td>
       <td id="custom-datetime">{{ task.date_created }}</td>
       <td>
-        <a href="/delete/{{task.id}}" style="color: #DB0800;">Deletar<span class="delete"></span></a>
+        <a href="/delete/{{task.id}}" style="color: #db0800"
+          >Deletar<span class="delete"></span
+        ></a>
         <br />
-        <a href="/update/{{task.id}}" style="color: #00DC0B;">Atualizar<span class="update"></span></a>
+        <a href="/update/{{task.id}}" style="color: #00dc0b"
+          >Atualizar<span class="update"></span
+        ></a>
       </td>
     </tr>
     {% endfor %}
   </table>
+  <p style="text-align: right; font-weight: 600;">Total: {{ tasks|length }}</p>
   {% endif %}
 </div>
 {% endblock %}
