@@ -29,7 +29,7 @@
     {% for task in tasks %}
     <tr>
       <td id="task-content">{{ task.content }}</td>
-      <td id="custom-datetime">{{ task.data_created }}</td>
+      <td id="custom-datetime">{{ task.date_created }}</td>
       <td>
         <a href="/delete/{{task.id}}" style="color: #DB0800;">Deletar<span class="delete"></span></a>
         <br />

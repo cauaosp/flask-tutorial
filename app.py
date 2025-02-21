@@ -2,13 +2,14 @@ from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-    "DATABASE_URL", "sqlite:///test.db"
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(app)
-
+print("Database URL:", app.config["SQLALCHEMY_DATABASE_URI"])
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -65,4 +66,4 @@ def update(id):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
