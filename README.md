@@ -20,4 +20,4 @@ Isso criará o banco de dados SQLite local para teste.
 - Acesse o servidor no endereço IP e porta especificados (ex: http://localhost:5000)
 
 **Observações**
-- Certifique-se de que o arquivo test.db foi criado após a execução dos comandos acima.
+- Se você estiver querendo testar localmente, certifique-se de que o arquivo test.db foi criado após a execução dos comandos acima.
