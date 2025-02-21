@@ -3,60 +3,64 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
-db = SQLAlchemy(app)
+def create_app():
+  app = Flask(__name__)
+  app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
+  db = SQLAlchemy(app)
 
-class Todo(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  content = db.Column(db.String(200), nullable=False)
-  data_created = db.Column(db.DateTime, default=datetime.utcnow)
+  class Todo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(200), nullable=False)
+    data_created = db.Column(db.DateTime, default=datetime.utcnow)
 
-  def __repr__(self):
-    return '<Task %r>' % self.id
+    def __repr__(self):
+      return '<Task %r>' % self.id
 
-@app.route('/', methods=['POST', 'GET'])
-def index():
-  if request.method == 'POST':
-    task_content = request.form['content']
-    new_task = Todo(content=task_content)
+  @app.route('/', methods=['POST', 'GET'])
+  def index():
+    if request.method == 'POST':
+      task_content = request.form['content']
+      new_task = Todo(content=task_content)
+
+      try:
+        db.session.add(new_task)
+        db.session.commit()
+        return redirect('/')
+      except:
+        return 'Houve um erro ao adicionar uma nova tarefa'
+    else:
+      tasks = Todo.query.order_by(Todo.data_created).all()
+      return render_template('index.html', tasks=tasks)
+    
+
+  @app.route('/delete/<int:id>')
+  def delete(id):
+    task_to_delete = Todo.query.get_or_404(id)
 
     try:
-      db.session.add(new_task)
+      db.session.delete(task_to_delete)
       db.session.commit()
       return redirect('/')
     except:
-      return 'Houve um erro ao adicionar uma nova tarefa'
-  else:
-    tasks = Todo.query.order_by(Todo.data_created).all()
-    return render_template('index.html', tasks=tasks)
-  
+      return 'Houve um problema para deletar esta tarefa'
 
-@app.route('/delete/<int:id>')
-def delete(id):
-  task_to_delete = Todo.query.get_or_404(id)
+  @app.route('/update/<int:id>', methods=['GET', 'POST'])
+  def update(id):
+    task_to_update = Todo.query.get_or_404(id)
 
-  try:
-    db.session.delete(task_to_delete)
-    db.session.commit()
-    return redirect('/')
-  except:
-    return 'Houve um problema para deletar esta tarefa'
+    if request.method == 'POST':
+      task_to_update.content = request.form['content']
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
-  task_to_update = Todo.query.get_or_404(id)
-
-  if request.method == 'POST':
-    task_to_update.content = request.form['content']
-
-    try:
-      db.session.commit()
-      return redirect('/')
-    except:
-      return 'Problema ao atualizar tarefa'
-  else:
-    return render_template('update.html', task=task_to_update)
+      try:
+        db.session.commit()
+        return redirect('/')
+      except:
+        return 'Problema ao atualizar tarefa'
+    else:
+      return render_template('update.html', task=task_to_update)
+    
+  return app
 
 if __name__ == "__main__":
+  app = create_app()
   app.run(debug=True)
