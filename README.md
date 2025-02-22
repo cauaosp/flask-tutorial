@@ -1,4 +1,4 @@
-# flask-tutorial
+# task list
 
 Este é um projeto de servidor remoto utilizando o framework Flask e o banco de dados Supabase.
 
