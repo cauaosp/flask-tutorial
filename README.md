@@ -2,8 +2,6 @@
 
 Este é um projeto de servidor remoto utilizando o framework Flask e o banco de dados Supabase.
 
-website: https://lista-de-tarefas-5ece0f6d1ed7.herokuapp.com/
-
 **Instalação e Configuração**
 - Clone o repositório
 - Instale as dependências: pip install -r requirements.txt
